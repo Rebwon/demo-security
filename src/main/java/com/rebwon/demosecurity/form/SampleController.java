@@ -7,13 +7,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.rebwon.demosecurity.account.AccountContext;
 import com.rebwon.demosecurity.account.AccountRepository;
 
 @Controller
 public class SampleController {
 	@Autowired
 	AccountRepository accountRepository;
+
+	@Autowired
+	SampleService sampleService;
 
 	@GetMapping("/")
 	public String index(Model model, Principal principal) {
@@ -34,7 +36,7 @@ public class SampleController {
 	@GetMapping("/dashboard")
 	public String dashboard(Model model, Principal principal) {
 		model.addAttribute("message", "Hello " + principal.getName());
-		AccountContext.setAccount(accountRepository.findByUsername(principal.getName()));
+		sampleService.dashboard();
 		return "dashboard";
 	}
 
