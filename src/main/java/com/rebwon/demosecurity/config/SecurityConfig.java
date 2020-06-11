@@ -64,15 +64,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.logout()
 			.logoutSuccessUrl("/");
 
-		http
-			.exceptionHandling()
+		http.exceptionHandling()
 			.accessDeniedHandler(((request, response, accessDeniedException) -> {
 				UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 				String username = principal.getUsername();
 				System.out.println(username + " is denied to access " + request.getRequestURI());
 				response.sendRedirect("/access-denied");
 			}));
-
 
 		SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
 	}

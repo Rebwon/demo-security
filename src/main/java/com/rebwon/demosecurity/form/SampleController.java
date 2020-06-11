@@ -12,12 +12,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.rebwon.demosecurity.account.Account;
 import com.rebwon.demosecurity.account.AccountRepository;
 import com.rebwon.demosecurity.account.CurrentUser;
+import com.rebwon.demosecurity.book.BookRepository;
 import com.rebwon.demosecurity.common.SecurityLogger;
 
 @Controller
 public class SampleController {
 	@Autowired
 	AccountRepository accountRepository;
+
+	@Autowired
+	BookRepository bookRepository;
 
 	@Autowired
 	SampleService sampleService;
@@ -54,6 +58,7 @@ public class SampleController {
 	@GetMapping("/user")
 	public String user(Model model, Principal principal) {
 		model.addAttribute("message", "Hello User, " + principal.getName());
+		model.addAttribute("books", bookRepository.findCurrentUserBooks());
 		return "user";
 	}
 
