@@ -12,8 +12,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
+import org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter;
 
 import com.rebwon.demosecurity.account.AccountService;
+import com.rebwon.demosecurity.common.LoggingFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -39,6 +41,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		http.addFilterBefore(new LoggingFilter(), WebAsyncManagerIntegrationFilter.class);
+
 		http.authorizeRequests()
 				.mvcMatchers("/", "/info", "/account/**", "/signup").permitAll()
 				.mvcMatchers("/admin").hasRole("ADMIN")
