@@ -9,7 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.rebwon.demosecurity.account.Account;
 import com.rebwon.demosecurity.account.AccountRepository;
+import com.rebwon.demosecurity.account.CurrentUser;
 import com.rebwon.demosecurity.common.SecurityLogger;
 
 @Controller
@@ -21,11 +23,11 @@ public class SampleController {
 	SampleService sampleService;
 
 	@GetMapping("/")
-	public String index(Model model, Principal principal) {
-		if(principal == null) {
+	public String index(Model model, @CurrentUser Account account) {
+		if(account == null) {
 			model.addAttribute("message", "Hello Spring Security");
 		} else{
-			model.addAttribute("message", "Hello, " + principal.getName());
+			model.addAttribute("message", "Hello, " + account.getUsername());
 		}
 		return "index";
 	}

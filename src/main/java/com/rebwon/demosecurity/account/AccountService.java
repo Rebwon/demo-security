@@ -18,11 +18,7 @@ public class AccountService implements UserDetailsService {
 		Account account = accountRepository.findByUsername(username);
 		if(account == null)
 			throw new UsernameNotFoundException(username);
-		return User.builder()
-			.username(account.getUsername())
-			.password(account.getPassword())
-			.roles(account.getRole())
-			.build();
+		return new UserAccount(account);
 	}
 
 	public Account create(Account account) {
